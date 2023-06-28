@@ -12,42 +12,7 @@ class CarController extends Controller
      */
     public function index(Request $request)
     {
-        $search = $request['search'] ?? "";
-        $branch = $request['branch'] ?? "";
-        if($search != ""){
-            $car = Car::where("model", "like", "%$search%")->orwhere("rate", "like", "%$search%")->get();
-        }else{
-            $car = Car::all();
-        }
-        if($branch != ""){
-            $car = Car::where("branch", "like", "%$branch%")->get();
-
-
-         }
-        return view('car_home',['car' => $car]);
-
-
-        // $car = Car::all();
-        // return view('car_home', ['car' => $car]);
-        // $search = $request->input('search');
-        // $branch = $request->input('branch');
-        // $query = Car::query();
-
-        // if ($search) {
-        //     $query->where(function ($q) use ($search) {
-        //         $q->where('model', 'like', "%{$search}%")
-        //             ->orWhere('rate', 'like', "%{$search}%");
-        //     });
-        // }
-
-        // if ($branch) {
-        //     $query->where('Branch', $branch);
-        // }
-
-        // $car = $query->orderBy('id', 'desc')->get();
-        // // $post_count = $query->count();
-        // $users = Car::select('id','model')->get();
-        // return view('home', compact('car','branch'));
+    //   
         
     }
 

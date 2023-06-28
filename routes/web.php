@@ -20,3 +20,8 @@ Route::get('/', function () {
 });
 
 Route::get('/home',[VehicleController::class,'index'])->name('car.home');
+Route::get('/home/{id}',[VehicleController::class,'show'])->name('car.show');
+// Route::get('/create',[VehicleController::class,'create'])->name('car.create');
+Route::post('/store',[VehicleController::class,'store'])->name('car.store');
+
+

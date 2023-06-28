@@ -27,9 +27,17 @@
 </div>
 <div class="row">
     @foreach ($vehicles as $row )
-   <div class="col-sm-4 mb-4">
-       <div>{{$row->model}}</div>
-       <div><img src="{{ $row->image }}" class="card-img-top" alt="car Image"></div>
+   <div class="col-sm-4 mb-4 border border-info rounded mt-2 bg-primary">
+    <a href="{{route('car.show',$row->id)}}" class="nav-link link-dark">
+        <div>{{$row->model}}</div>
+        <div><img src="{{ $row->image }}" class="card-img-top" alt="car Image"></div>
+        <div class="row">
+            <div class="col-6">{{$row->seating_capacity}}  <span>  People</span></div>
+        <div class="col-6">{{$row->fuel_type}}</div>
+        </div>
+        
+    </a>
+   
    </div>
 
    @endforeach($car as $row)

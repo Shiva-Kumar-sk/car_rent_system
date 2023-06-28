@@ -38,8 +38,13 @@ class VehicleController extends Controller
      * Show the form for creating a new resource.
      */
     public function create()
-    {
-        //
+    { 
+        //  $data = Vehicle::with('Vehicle')->get();
+        // return $data;
+        // echo "<pre>";
+        // print_r($data);
+        // echo "</pre>";
+
     }
 
     /**
@@ -47,7 +52,7 @@ class VehicleController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // return $request;
     }
 
     /**
@@ -55,6 +60,10 @@ class VehicleController extends Controller
      */
     public function show(string $id)
     {
+        // $cars = Vehicle::find($id);
+      $cars = Vehicle::with('Vehicle')->find($id);
+
+        return  view('car_info',compact('cars'));
         //
     }
 
