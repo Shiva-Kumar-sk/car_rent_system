@@ -19,9 +19,16 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/home',[VehicleController::class,'index'])->name('car.home');
-Route::get('/home/{id}',[VehicleController::class,'show'])->name('car.show');
+Route::get('/car_home',[VehicleController::class,'index'])->name('car.home');
+Route::get('/car_home/{id}',[VehicleController::class,'show'])->name('car.show');
 // Route::get('/create',[VehicleController::class,'create'])->name('car.create');
 Route::post('/store',[VehicleController::class,'store'])->name('car.store');
 
 
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+
+// Route::middleware('auth')->group(function () {});

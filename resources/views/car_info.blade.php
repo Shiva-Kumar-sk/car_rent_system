@@ -74,7 +74,9 @@
         const date1 = new Date(day1);
         const date2 = new Date(day2);
         const time = Math.abs(date2 - date1);
-        const hours = Math.ceil(time / (1000*60*60));
+        // const hours = Math.ceil(time / (1000*60*60));
+        const hours = time / (1000*60*60);
+
         // for send data
         document.getElementById('output').innerHTML = hours + 'hour' ;
        document.getElementById('outputmoney').innerHTML = hours * {{$cars->Vehicle->cost}} + ' &#8377';
