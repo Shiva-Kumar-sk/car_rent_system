@@ -1,5 +1,5 @@
 
-@extends('layout.app')
+@extends('layouts.app')
 @section('title', 'Home Page')
 @section('heading', 'All Vehicles')
 @section('link_text', 'All Vehicles')

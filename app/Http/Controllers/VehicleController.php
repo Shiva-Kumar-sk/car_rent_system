@@ -28,15 +28,17 @@ class VehicleController extends Controller
         }
 
         $vehicles = $query->orderBy('id', 'desc')->get();
-        $branches = Store::select('id', 'branch')->get();
-        return view('car_home', compact('vehicles', 'branches'));
+        $branches = Store::select('id','branch')->get();
+        return view('car_home', compact('vehicles','branches'));
+
+        
     }
 
     /**
      * Show the form for creating a new resource.
      */
     public function create()
-    {
+    { 
         //  $data = Vehicle::with('Vehicle')->get();
         // return $data;
         // echo "<pre>";
@@ -59,9 +61,9 @@ class VehicleController extends Controller
     public function show(string $id)
     {
         // $cars = Vehicle::find($id);
-        $cars = Vehicle::with('Vehicle')->find($id);
+      $cars = Vehicle::with('Vehicle')->find($id);
 
-        return  view('car_info', compact('cars'));
+        return  view('car_info',compact('cars'));
         //
     }
 

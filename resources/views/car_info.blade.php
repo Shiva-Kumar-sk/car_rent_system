@@ -1,9 +1,9 @@
 
-@extends('layout.app')
+@extends('layouts.app')
 @section('title', 'Home Page')
 @section('heading', $cars->model)
 @section('link_text', 'All Vehicles')
-@section('link', '/home')
+@section('link', '/car_home')
 
 @section('content')
 
@@ -29,7 +29,7 @@
         <div class="col-sm-6">
           
             <div class="form group">
-                <label>start time</label>  
+                <label>Pick up date time</label>  
                 <input type="datetime-local" class="form-control" name="day1" id="day1">
             </div>
             
@@ -40,7 +40,7 @@
 
         <div class="col-sm-6">
             <div class="form group mb-3">
-            <label>end time</label>  
+            <label>Drop off date time</label>  
             <input type="datetime-local" class="form-control" name="day2" id="day2">
             </div>
             <div >
