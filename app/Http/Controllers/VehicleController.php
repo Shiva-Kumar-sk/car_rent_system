@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Vehicle;
 use App\Models\Store;
+use App\Models\Car;
+
+use Illuminate\Support\Facades\DB;
 
 class VehicleController extends Controller
 {
@@ -14,7 +17,6 @@ class VehicleController extends Controller
     public function index(Request $request)
     {
         $search = $request->input('search');
-        $branch = $request->input('branch');
         $query = Vehicle::query();
 
         if ($search) {
@@ -23,13 +25,8 @@ class VehicleController extends Controller
             });
         }
 
-        if ($branch) {
-            $query->where('branch_id', $branch);
-        }
-
         $vehicles = $query->orderBy('id', 'desc')->get();
-        $branches = Store::select('id','branch')->get();
-        return view('car_home', compact('vehicles','branches'));
+        return view('car_home', compact('vehicles'));
 
         
     }
@@ -52,18 +49,43 @@ class VehicleController extends Controller
      */
     public function store(Request $request)
     {
-        // return $request;
+        // echo "<pre>";
+        // echo $request;
+        return $request;
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Request $request ,string $id)
     {
-        // $cars = Vehicle::find($id);
-      $cars = Vehicle::with('Vehicle')->find($id);
+        // $car = Vehicle::find($id);
+        $store = $request->input('branch');
+      $car = Vehicle::with(['Vehicle_rate','car'])->find($id);
+      $branch = Store::all();
 
-        return  view('car_info',compact('cars'));
+
+    //   $vehicles = DB::table('car')->where([['vehicle_id',$id],['branch_id',1]])->get();
+
+
+
+      $vehicles = Car::where([
+        ['branch_id',$store],
+        ['vehicle_id',$id]
+    ])->get();
+
+    //   $query = Vehicle::query();
+    //   $query->where('vehicle_id',$id);
+
+
+    //   if ($store) {
+    //     $query->where('branch_id', $store);
+    // }
+    // $vehicles = $query->orderBy('id', 'desc')->get();
+// echo "<pre>";
+// print_r($vehicles);
+
+        return  view('car_info',compact('car','branch','vehicles'));
         //
     }
 

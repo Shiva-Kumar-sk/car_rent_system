@@ -5,6 +5,9 @@ use Illuminate\Support\ServiceProvider;
 
 return [
 
+    'instamojo_key' => env('INSTAMOJO_KEY', 'test_1cae406fe1cbbb3bcd14bbad0ff'),
+    'instamojo_secret' => env('INSTAMOJO_SECRET', 'test_c33c051cb54f5503a101911ab4e'),
+
     /*
     |--------------------------------------------------------------------------
     | Application Name

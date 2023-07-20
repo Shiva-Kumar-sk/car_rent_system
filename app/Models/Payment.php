@@ -5,13 +5,15 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Store extends Model
+class Payment extends Model
 {
     use HasFactory;
 
-    public function branch()
-    {
-        return $this->hasMany(Car::class,'branch_id','id');
+    protected $fillable = [
+        'booking_id',
+        'amount',
+        'status',
+        'payment_id'
         
-    }
+    ];
 }

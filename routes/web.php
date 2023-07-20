@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CarController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\VehicleController;
 
 /*
@@ -19,10 +20,21 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-// Route::get('/car_home',[VehicleController::class,'index'])->name('car.home');
-// Route::get('/car_home/{id}',[VehicleController::class,'show'])->name('car.show');
+
+
+
+Route::get('/car_home', [VehicleController::class, 'index'])->name('vehicle.home');
+Route::get('/car_home/{id}', [VehicleController::class, 'show'])->name('vehicle.show');
 // Route::get('/create',[VehicleController::class,'create'])->name('car.create');
-Route::post('/store',[VehicleController::class,'store'])->name('car.store');
+Route::post('/store', [VehicleController::class, 'store'])->name('car.store');
+
+
+
+
+
+
+
+
 
 
 
@@ -32,6 +44,11 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 
 Route::middleware('auth')->group(function () {
-    Route::get('/car_home',[VehicleController::class,'index'])->name('car.home');
-Route::get('/car_home/{id}',[VehicleController::class,'show'])->name('car.show');
+
+    Route::post('/car_home/{id}', [PaymentController::class, 'payment_submit'])->name('payment.submit');
+
+    Route::get('/redirect', [PaymentController::class, 'redirect'])->name('payment.redirect');
+
+    Route::get('/payment-done', [PaymentController::class, 'payment_success'])->name('payment.success');
+    Route::get('/test-fail', [PaymentController::class, 'payment_fail'])->name('payment.fail');
 });
