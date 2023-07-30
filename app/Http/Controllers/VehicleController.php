@@ -71,7 +71,9 @@ class VehicleController extends Controller
 
       $vehicles = Car::where([
         ['branch_id',$store],
-        ['vehicle_id',$id]
+        ['vehicle_id',$id],
+        ['vehicle_status',1]
+
     ])->get();
 
     //   $query = Vehicle::query();

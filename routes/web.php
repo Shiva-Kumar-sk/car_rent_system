@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CarController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\VehicleController;
-
+use App\Http\Controllers\AdminController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -19,6 +19,19 @@ use App\Http\Controllers\VehicleController;
 Route::get('/', function () {
     return view('welcome');
 });
+
+//  admin
+Route::get('/admin', [AdminController::class, 'index'])->name('admin.home');
+Route::get('/admin/{id}', [AdminController::class, 'edit'])->name('admin.edit');
+Route::post('/admin/{id}', [AdminController::class, 'extra_payment'])->name('admin.extra_payment');
+Route::get('/extra_payment_redirect', [AdminController::class, 'extra_payment_redirect'])->name('payment.extra_payment_redirect');
+
+
+
+// Route::get('/admin', function () {
+//     return view('admin/admin_dashboard');
+// });
+//test
 
 
 
@@ -47,8 +60,10 @@ Route::middleware('auth')->group(function () {
 
     Route::post('/car_home/{id}', [PaymentController::class, 'payment_submit'])->name('payment.submit');
 
-    Route::get('/redirect', [PaymentController::class, 'redirect'])->name('payment.redirect');
-
-    Route::get('/payment-done', [PaymentController::class, 'payment_success'])->name('payment.success');
-    Route::get('/test-fail', [PaymentController::class, 'payment_fail'])->name('payment.fail');
+  
 });
+
+Route::get('/redirect', [PaymentController::class, 'redirect'])->name('payment.redirect');
+
+Route::get('/payment-done', [PaymentController::class, 'payment_success'])->name('payment.success');
+Route::get('/payment-fail', [PaymentController::class, 'payment_fail'])->name('payment.fail');

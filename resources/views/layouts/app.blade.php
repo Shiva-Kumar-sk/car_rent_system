@@ -15,6 +15,12 @@
 
     <!-- Scripts -->
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
+
+    <style>
+        table, th, td {
+          border: 1px solid black;
+        }
+        </style>
 </head>
 <body>
     <div id="app">

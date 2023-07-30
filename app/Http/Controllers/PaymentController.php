@@ -141,6 +141,12 @@ class PaymentController extends Controller
                     'status' => 1,
                     'payment_id' => $response->payment->payment_id
                 ]);
+
+                Car::where('id', $booking_id->car_id)
+                ->update([
+                    'vehicle_status' => 0
+                
+                ]);
         // return $response;
 
         return view('payment_done', compact('booking_costumer_id'));
@@ -153,7 +159,7 @@ class PaymentController extends Controller
                     'payment_id' => $response->payment->payment_id
                 ]);
                 // return 'one';
-        return redirect(url('/test-fail'))->with('error', 'Transaction was declined by the bank');
+        return redirect(url('/payment-fail'))->with('error', 'Transaction was declined by the bank');
 
 
         }
@@ -164,7 +170,7 @@ class PaymentController extends Controller
                     'payment_id' => $response->payment->payment_id
                 ]);
                 // return 'two';
-            return redirect(url('/test-fail'))->with('error', 'Payer did not complete authentication');
+            return redirect(url('/payment-fail'))->with('error', 'Payer did not complete authentication');
     
     
             }
@@ -175,7 +181,7 @@ class PaymentController extends Controller
                 
                 ]);
                 // return 'three';
-        return redirect(url('/test-fail'));
+        return redirect(url('/payment-fail'));
 
         }
 
@@ -190,6 +196,7 @@ class PaymentController extends Controller
     {
         $rate = Vehicle::with(['Vehicle_rate', 'car'])->find($id);
         //   return $rate->Vehicle_rate->cost;
+        $cost_per_hour = $rate->Vehicle_rate->cost;
 
         $car = Car::find($request->car);
         if ($car == null) {
@@ -223,6 +230,7 @@ class PaymentController extends Controller
         $booking = Booking::create([
             'hours' => $hour_data,
             'money' => $cost_data,
+            'cost_per_hour'=> $cost_per_hour,
             'pick_up_date' => $request->input('pick_up_date'),
             'drop_of_date' => $request->input('drop_of_date'),
             'mobile' => $request->input('mobile'),
