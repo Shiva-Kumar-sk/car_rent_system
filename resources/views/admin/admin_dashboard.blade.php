@@ -7,6 +7,13 @@
             {{-- <div class="card"> --}}
                 {{-- <div class="card-header">{{ __('Dashboard') }}</div> --}}
                {{-- {{ print_r($data);}} --}}
+               @if(session('success'))
+                   <div class="alert alert-success mt-3">{{ session('success') }}</div>
+               @endif
+
+               @if(session('error'))
+                 <div class="alert alert-danger mt-3">{{ session('error') }}</div>
+               @endif
                <table>
                     <tr>
                         <th>id</th>

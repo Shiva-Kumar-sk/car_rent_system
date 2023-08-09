@@ -2,15 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\MyCustomerMail;
 use Illuminate\Http\Request;
 use App\Models\Booking;
 use App\Models\Car;
 use App\Models\Vehicle;
 use App\Models\Rate;
 use App\Models\Payment;
+use App\Models\User;
 use DateTime;
+use Mail;
 use Illuminate\Support\Facades\Http;
-
+use Illuminate\Support\Facades\Mail as FacadesMail;
 
 class AdminController extends Controller
 {
@@ -27,8 +30,14 @@ class AdminController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function test_mail()
     {
+        $details = [
+            "title" => "this is title  fo email test",
+            "message" => "this is message for test"
+        ];
+        Mail::to("sksinghsingh355@gmail.com")->send(new MyCustomerMail($details));
+        return redirect('/');
         //
     }
 
@@ -54,7 +63,11 @@ class AdminController extends Controller
     public function edit(string $id)
     {
         $data = Booking::where('status', 1)->find($id);
-      
+        if($data == null){
+            return redirect(url('/admin'))->with('error','Data Not found');
+
+        }
+
 
         return view('admin/car_submission', compact('data'));
     }
@@ -64,8 +77,11 @@ class AdminController extends Controller
      */
     public function extra_payment(Request $request, $id)
     {
-       
+
         $data = Booking::where('status', 1)->find($id);
+
+        $user = User::where('id', $data->user_id)->first();
+
 
 
 
@@ -91,7 +107,7 @@ class AdminController extends Controller
         if ($formattedDateTime > $data->drop_of_date && $data->car_submitted == null) {
 
 
-           
+
 
 
 
@@ -101,19 +117,19 @@ class AdminController extends Controller
                 'purpose' => $data->id,
 
                 'amount' => $cost_data,
-               
+
 
 
                 'phone' => $data->mobile,
 
-                'buyer_name' => 'akash',
+                'buyer_name' => $user->name,
 
                 'redirect_url' => "http://127.0.0.1:8000/extra_payment_redirect?purpose=$data->id",
 
                 'send_email' => true,
 
                 'send sms' => true,
-                'email' => 'akash@email.com',
+                'email' => $user->email,
 
                 'allow_repeated payments' => false,
 
@@ -128,9 +144,9 @@ class AdminController extends Controller
             ])->post('https://test.instamojo.com/api/1.1/payment-requests/', $payload);
 
             $response = json_decode($response);
-           
 
-            
+
+
 
 
             Booking::where('id', $data->id)
@@ -147,28 +163,36 @@ class AdminController extends Controller
                 ]);
 
 
-            // return $response;
+
+            $details = [
+                "title" => "Dear $user->name You have have to pay over cost for over time please pay payment link is below.",
+                "message" => $response->payment_request->longurl
+            ];
+            Mail::to($user->email)->send(new MyCustomerMail($details));
+
+
+
+
+
             return back()->with('error', '!! this user has extra  cost  !!');
-
-
-           
         } else {
             Booking::where('id', $data->id)
-            ->update([
-                'car_submitted' => 1,
-                'status' => 3
-                
+                ->update([
+                    'actual_drop_time' => $request->input('actual_drop_time'),
+                    'car_submitted' => 1,
+                    'status' => 3
 
-            ]);
+
+                ]);
 
             Car::where('id', $data->car_id)
                 ->update([
                     'vehicle_status' => 1
-                
-                ]);
-            return back()->with('success', '!! car submitted  successfully !!');
 
-            // return 'car submited';
+                ]);
+            return redirect(url('/admin'))->with('success', '!! car submitted  successfully !!');
+
+           
         }
     }
 
@@ -196,38 +220,35 @@ class AdminController extends Controller
         curl_close($ch);
 
         $response = json_decode($response);
-       
-     //    #to day
+
+        //    #to day
 
         $booking_id = Booking::find($request->purpose);
-      
 
-        if ($booking_id->id  == $request->purpose && $response->success == true && $response->payment->status == 'Credit' && $response->payment->failure == null ) {
-              Booking::where('id', $request->purpose)
+
+        if ($booking_id->id  == $request->purpose && $response->success == true && $response->payment->status == 'Credit' && $response->payment->failure == null) {
+            Booking::where('id', $request->purpose)
                 ->update([
                     'car_submitted' => 1,
                     'is_extra_cost_paid' => 1,
                     'status' => 3,
 
                 ]);
-                Payment::where('booking_id', $request->purpose)
+            Payment::where('booking_id', $request->purpose)
                 ->update([
                     'is_extra_cost' => null,
-                    
+
                 ]);
 
-                Car::where('id', $booking_id->car_id)
+            Car::where('id', $booking_id->car_id)
                 ->update([
                     'vehicle_status' => 1
-                
+
                 ]);
-      
 
 
-        return redirect(url('/car_home'))->with('success','extra cost payment success');
 
+            return redirect(url('/car_home'))->with('success', 'extra cost payment success');
         }
-       
-
     }
 }

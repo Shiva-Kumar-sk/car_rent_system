@@ -25,16 +25,15 @@ Route::get('/admin', [AdminController::class, 'index'])->name('admin.home');
 Route::get('/admin/{id}', [AdminController::class, 'edit'])->name('admin.edit');
 Route::post('/admin/{id}', [AdminController::class, 'extra_payment'])->name('admin.extra_payment');
 Route::get('/extra_payment_redirect', [AdminController::class, 'extra_payment_redirect'])->name('payment.extra_payment_redirect');
+Route::get('/test_mail', [AdminController::class, 'test_mail'])->name('payment.test_mail');
 
 
 
-// Route::get('/admin', function () {
-//     return view('admin/admin_dashboard');
-// });
-//test
 
 
 
+
+// car related
 
 Route::get('/car_home', [VehicleController::class, 'index'])->name('vehicle.home');
 Route::get('/car_home/{id}', [VehicleController::class, 'show'])->name('vehicle.show');
@@ -55,14 +54,14 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-
+// auth
 Route::middleware('auth')->group(function () {
 
     Route::post('/car_home/{id}', [PaymentController::class, 'payment_submit'])->name('payment.submit');
 
   
 });
-
+//without auth
 Route::get('/redirect', [PaymentController::class, 'redirect'])->name('payment.redirect');
 
 Route::get('/payment-done', [PaymentController::class, 'payment_success'])->name('payment.success');
