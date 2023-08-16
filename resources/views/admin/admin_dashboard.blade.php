@@ -4,9 +4,7 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
-            {{-- <div class="card"> --}}
-                {{-- <div class="card-header">{{ __('Dashboard') }}</div> --}}
-               {{-- {{ print_r($data);}} --}}
+          
                @if(session('success'))
                    <div class="alert alert-success mt-3">{{ session('success') }}</div>
                @endif
@@ -50,31 +48,7 @@
                         @endforeach
                    
                 </table>
-                {{-- <form method="POST" action="">
-                    @csrf
-                <div class="form group mb-3">
-                    <label>Actual Drop off date time</label>  
-                    <input type="datetime-local" required class="form-control" name="drop_of_date" id="drop_of_date" value="{{old('drop_of_date')}}">
-                    <span class="text-danger">
-                        @error('drop_of_date')
-                        {{$message}}
-                            
-                        @enderror
-                    </span>
-                </div>
-                <input class="btn btn-success" type="submit" name="submit" value="send">
-        
-                </form> --}}
-
-                {{-- <div class="card-body">
-                    @if (session('status'))
-                        <div class="alert alert-success" role="alert">
-                            {{ session('status') }}
-                        </div>
-                    @endif
-
-                    {{ __('You are logged in as admin!') }}
-                </div> --}}
+              
             </div>
         </div>
     </div>

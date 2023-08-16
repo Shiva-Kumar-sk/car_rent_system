@@ -37,14 +37,12 @@
                             <option value="{{ $branches->id }}" {{ request('branch') == $branches->id ? 'selected' : '' }}>{{ $branches->branch }}</option>
                         @endforeach
                     </select>
-                    {{-- <div class="input-group-append">
-                        <button type="submit" class="btn btn-primary">Select</button>
-                    </div> --}}
+                   
                 </div>
             </form>
             <script type='text/javascript'> 
                 function submitForm(){ 
-                  // Call submit() method on <form id='myform'>
+                 
                   document.getElementById('myform').submit(); 
                 } 
             </script>
@@ -115,7 +113,7 @@
                 
             
             
-            {{-- <input type="hidden" id="cost" name="cost" value="{{$car->Vehicle_rate->cost}}"> --}}
+           
             <input type="hidden" id="hidden-input1" name="hour_data">
             <input type="hidden" id="hidden-input2" name="money_data">
         
@@ -148,21 +146,17 @@
         const date1 = new Date(pick_up_date);
         const date2 = new Date(drop_of_date);
         const time = Math.abs(date2 - date1);
-        // const hours = Math.ceil(time / (1000*60*60));
+        
         const hours = time / (1000*60*60);
 
-        // for send data
+        
         var hour_data = hours;
       var money_data = hours * {{$car->Vehicle_rate->cost}};
 
       document.getElementById('output').innerHTML = hour_data.toFixed(2) + 'hour' ;
       document.getElementById('outputmoney').innerHTML = money_data.toFixed(2) + ' &#8377';
 
-    //     document.getElementById('output').innerHTML = hours.toFixed(2) + 'hour' ;
-    //    document.getElementById('outputmoney').innerHTML = hours.toFixed(2) * {{$car->Vehicle_rate->cost}} + ' &#8377';
 
-    //    var hour_data = hours;
-    //   var money_data = hours * {{$car->Vehicle_rate->cost}};
 
 
         document.getElementById('hidden-input1').value = hour_data;

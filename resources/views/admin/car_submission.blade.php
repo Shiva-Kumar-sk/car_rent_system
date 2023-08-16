@@ -55,7 +55,7 @@ function myFunction() {
                  
                     const hours = time / (1000*60*60);
             
-                    // for send data
+                    
                     var hour_data = hours;
                
             

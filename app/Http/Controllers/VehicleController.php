@@ -36,11 +36,7 @@ class VehicleController extends Controller
      */
     public function create()
     { 
-        //  $data = Vehicle::with('Vehicle')->get();
-        // return $data;
-        // echo "<pre>";
-        // print_r($data);
-        // echo "</pre>";
+       
 
     }
 
@@ -49,8 +45,7 @@ class VehicleController extends Controller
      */
     public function store(Request $request)
     {
-        // echo "<pre>";
-        // echo $request;
+      
         return $request;
     }
 
@@ -65,7 +60,7 @@ class VehicleController extends Controller
       $branch = Store::all();
 
 
-    //   $vehicles = DB::table('car')->where([['vehicle_id',$id],['branch_id',1]])->get();
+  
 
 
 
@@ -76,19 +71,10 @@ class VehicleController extends Controller
 
     ])->get();
 
-    //   $query = Vehicle::query();
-    //   $query->where('vehicle_id',$id);
-
-
-    //   if ($store) {
-    //     $query->where('branch_id', $store);
-    // }
-    // $vehicles = $query->orderBy('id', 'desc')->get();
-// echo "<pre>";
-// print_r($vehicles);
+   
 
         return  view('car_info',compact('car','branch','vehicles'));
-        //
+        
     }
 
     /**

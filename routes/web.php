@@ -25,7 +25,7 @@ Route::get('/admin', [AdminController::class, 'index'])->name('admin.home');
 Route::get('/admin/{id}', [AdminController::class, 'edit'])->name('admin.edit');
 Route::post('/admin/{id}', [AdminController::class, 'extra_payment'])->name('admin.extra_payment');
 Route::get('/extra_payment_redirect', [AdminController::class, 'extra_payment_redirect'])->name('payment.extra_payment_redirect');
-Route::get('/test_mail', [AdminController::class, 'test_mail'])->name('payment.test_mail');
+
 
 
 
@@ -37,8 +37,7 @@ Route::get('/test_mail', [AdminController::class, 'test_mail'])->name('payment.t
 
 Route::get('/car_home', [VehicleController::class, 'index'])->name('vehicle.home');
 Route::get('/car_home/{id}', [VehicleController::class, 'show'])->name('vehicle.show');
-// Route::get('/create',[VehicleController::class,'create'])->name('car.create');
-Route::post('/store', [VehicleController::class, 'store'])->name('car.store');
+
 
 
 

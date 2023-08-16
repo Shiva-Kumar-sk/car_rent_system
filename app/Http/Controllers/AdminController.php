@@ -6,14 +6,13 @@ use App\Mail\MyCustomerMail;
 use Illuminate\Http\Request;
 use App\Models\Booking;
 use App\Models\Car;
-use App\Models\Vehicle;
-use App\Models\Rate;
+
 use App\Models\Payment;
 use App\Models\User;
 use DateTime;
 use Mail;
 use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Mail as FacadesMail;
+
 
 class AdminController extends Controller
 {
@@ -23,43 +22,13 @@ class AdminController extends Controller
     public function index()
     {
         $data = Booking::where('status', 1)->get();
-        // return $data;
+       
         return view('admin/admin_dashboard', compact('data'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function test_mail()
-    {
-        $details = [
-            "title" => "this is title  fo email test",
-            "message" => "this is message for test"
-        ];
-        Mail::to("sksinghsingh355@gmail.com")->send(new MyCustomerMail($details));
-        return redirect('/');
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
+   
+    
+  
     public function edit(string $id)
     {
         $data = Booking::where('status', 1)->find($id);
@@ -97,7 +66,7 @@ class AdminController extends Controller
         $cost_data = round($cost, 2);
         $hour_data = round($hour, 2);
 
-        // date string
+      
 
         $dateString = $request->actual_drop_time;
         $dateTime = new DateTime($dateString);
@@ -139,8 +108,7 @@ class AdminController extends Controller
             $response = Http::withHeaders([
                 "X-Api-Key" => config('app.instamojo_key'),
                 "X-Auth-Token" => config('app.instamojo_secret')
-                // "X-Api-Key" => "test_1cae406fe1cbbb3bcd14bbad0ff",
-                // "X-Auth-Token" => "test_c33c051cb54f5503a101911ab4e"
+               
             ])->post('https://test.instamojo.com/api/1.1/payment-requests/', $payload);
 
             $response = json_decode($response);
@@ -196,9 +164,8 @@ class AdminController extends Controller
         }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
+   
+
     public function extra_payment_redirect(Request $request)
     {
         $ch = curl_init();
@@ -221,7 +188,7 @@ class AdminController extends Controller
 
         $response = json_decode($response);
 
-        //    #to day
+      
 
         $booking_id = Booking::find($request->purpose);
 

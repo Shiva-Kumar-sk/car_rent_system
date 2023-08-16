@@ -7,14 +7,7 @@ use App\Models\Payment;
 use App\Models\Booking;
 use App\Models\Vehicle;
 use App\Models\Car;
-use Illuminate\Support\Facades\DB;
-use Razorpay\Api\Api;
-use Exception;
-use Session;
 use Illuminate\Support\Facades\Http;
-
-use function PHPUnit\Framework\isEmpty;
-use function PHPUnit\Framework\isNull;
 
 class PaymentController extends Controller
 {
@@ -121,10 +114,7 @@ class PaymentController extends Controller
         curl_close($ch);
 
         $response = json_decode($response);
-        //  return response(["payment_details" => $response, "purpose" => $request->purpose]);
-
-
-        // $booking_id = DB::table('bookings')->select('id')->where('id', $request->purpose);
+      
        
 
         $booking_id = Booking::find($request->purpose);
@@ -147,7 +137,7 @@ class PaymentController extends Controller
                     'vehicle_status' => 0
                 
                 ]);
-        // return $response;
+        
 
         return view('payment_done', compact('booking_costumer_id'));
 
@@ -158,7 +148,7 @@ class PaymentController extends Controller
                     'status' => 2,
                     'payment_id' => $response->payment->payment_id
                 ]);
-                // return 'one';
+                
         return redirect(url('/payment-fail'))->with('error', 'Transaction was declined by the bank');
 
 
@@ -169,7 +159,7 @@ class PaymentController extends Controller
                     'status' => 2,
                     'payment_id' => $response->payment->payment_id
                 ]);
-                // return 'two';
+                
             return redirect(url('/payment-fail'))->with('error', 'Payer did not complete authentication');
     
     
@@ -180,22 +170,19 @@ class PaymentController extends Controller
                     'status' => 2
                 
                 ]);
-                // return 'three';
+                
         return redirect(url('/payment-fail'));
 
         }
 
-        // return $response->success;
-        // return $response;
-
-        // return response(["payment_details" => $response, "purpose" => $request->purpose]);
+      
     }
 
 
     public function payment_submit(Request $request, string $id)
     {
         $rate = Vehicle::with(['Vehicle_rate', 'car'])->find($id);
-        //   return $rate->Vehicle_rate->cost;
+       
         $cost_per_hour = $rate->Vehicle_rate->cost;
 
         $car = Car::find($request->car);
@@ -215,7 +202,7 @@ class PaymentController extends Controller
 
 
 
-        // return $car ;
+      
 
         $validate =  $request->validate([
             'hour_data' => 'required',
@@ -271,12 +258,11 @@ class PaymentController extends Controller
         $response = Http::withHeaders([
             "X-Api-Key" => config('app.instamojo_key'),
             "X-Auth-Token" => config('app.instamojo_secret')
-            // "X-Api-Key" => "test_1cae406fe1cbbb3bcd14bbad0ff",
-            // "X-Auth-Token" => "test_c33c051cb54f5503a101911ab4e"
+            
         ])->post('https://test.instamojo.com/api/1.1/payment-requests/', $payload);
 
         $response = json_decode($response);
-        // return $response;
+       
 
 
         return redirect($response->payment_request->longurl);
